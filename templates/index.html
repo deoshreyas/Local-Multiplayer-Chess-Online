@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Multiplayer Chess Games | A project by Shreyas Deo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="flex">
+        <h1>Create/Join Game</h1>
+        <form action="POST">
+            <div class="horizontal">
+                <input type="text" placeholder="Enter game code" name="code">
+                <input type="submit" value="Join Game" name="join"> <br>
+            </div>
+            <button type="submit" name="create">Create Game</button>
+        </form>
+    </div>
+</body>
+</html>

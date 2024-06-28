@@ -1,0 +1,54 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #1b1b1b;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    flex-direction: column;
+}
+
+.flex h1 {
+    background-color: white;
+    color: #333;
+    padding: 0.1em 0.5em;
+    margin-bottom: 2em;
+}
+
+.flex form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.flex form input {
+    font-size: 1.25em;
+    padding: 0.3em 0.15em;
+    outline: none;
+}
+
+.flex form input[type="submit"], .flex form button {
+    font-size: 1.5em;
+    padding: 0.25em 0.5em;
+    background-color: #333;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.flex form input[type="submit"]:hover, .flex form button:hover {
+    background-color: white;
+    color: #333;
+}
+
+.flex form button {
+    margin-top: 1em;
+}
