@@ -13,7 +13,7 @@
 </head>
 <body>
     <div class="flex">
-        <h1>Game: AYSTE</h1>
+        <h1>Game: {{ room }}</h1>
         <div id="board" style="width: 500px"></div>
     </div>
     
@@ -25,5 +25,8 @@
         integrity="sha384-8Vi8VHwn3vjQ9eUHUxex3JSN/NFqUg3QbPyX8kWyb93+8AC/pPWTzj+nHtbC5bxD"
         crossorigin="anonymous"></script>
     <script src="{{ url_for('static', filename='board-script.js') }}"></script>
+    <script>
+        SetFen("{{ fen }}")
+    </script>
 </body>
 </html>

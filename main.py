@@ -16,7 +16,7 @@ def GenerateCode(length):
             break
     return code
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/", methods=["POST", "GET"])
 def index():
     session.clear()
 
@@ -32,7 +32,7 @@ def index():
 
         if create:
             room = GenerateCode(5)
-            rooms[room] = {"fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", "members": 0}
+            rooms[room] = {"fen": "start", "members": 0}
         elif code not in rooms:
             return render_template("index.html", error="Invalid code!")
         
@@ -46,6 +46,8 @@ def home():
     room = session.get("room")
     if room is None or room not in rooms:
         return redirect(url_for("index"))
+    if rooms[room]["members"]>=2:
+        return redirect(url_for("index"))
     return render_template("board.html", room=room, fen=rooms[room]["fen"])
 
 @socketio.on("connect")
@@ -58,9 +60,8 @@ def connect(auth):
         return 
     if rooms[room]["members"]>=2: # Only 2 players allowed
         leave_room(room)
-        return
+        return 
     join_room(room)
-    send({"tag": "announcement", "message": "has joined!"}, to=room)
     rooms[room]["members"] += 1
 
 @socketio.on("disconnect")
@@ -70,21 +71,19 @@ def disconnect():
     if room in rooms:
         rooms[room]["members"] -= 1
         if rooms[room]["members"]<=0:
-            del rooms[room]  
-    send({"tag": "announcement", "message": "has left!"}, to=room)
+            del rooms[room] 
 
 @socketio.on("move")
 def move(data):
     room = session.get("room")
-    name = session.get("name")
     if room not in rooms:
         return 
     content = {
-        "tag": "move",
-        "move": data["move"]
+        "tag": "game",
+        "fen": data["fen"]
     }
     send(content, to=room)
-    rooms[room]["messages"].append({"name": name, "message": data["data"]})
+    rooms[room]["fen"] = data["fen"]
 
 if __name__ == "__main__":
-    socketio.run(app)
+    socketio.run(app, debug=True)

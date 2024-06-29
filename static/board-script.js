@@ -18,7 +18,7 @@ function onDrop (source, target) {
   var move = game.move({
     from: source,
     to: target,
-    promotion: 'q' // NOTE: always promote to a queen for example simplicity
+    promotion: 'q' // NOTE: always promote to a queen (for simplicity)
   })
 
   // illegal move
@@ -35,7 +35,7 @@ function onSnapEnd () {
 
 var config = {
     draggable: true,
-    pieceTheme: 'static/pieces/wikipedia/{piece}.png',
+    pieceTheme: "/static/pieces/wikipedia/{piece}.png",
     position: 'start',
     onDragStart: onDragStart,
     onDrop: onDrop,
@@ -44,9 +44,7 @@ var config = {
 
 var board = Chessboard('board', config)
 
-const content_messages = document.querySelector(".messages");
-
-const ChangeFen = (fen) => {
+const SetFen = (fen) => {
     game.load(fen);
     board.position(fen);
 }
@@ -56,9 +54,9 @@ socketio.on("message", (data) => {
         console.log(data.message);
         return;
     }
-    ChangeFen(data.fen);
+    SetFen(data.fen);
 });
 
 const SendFen = (fen) => {
-    socketio.emit("move", {tag: "move", move: fen});
+    socketio.emit("move", {tag: "fen", fen: fen});
 };
